@@ -1,0 +1,54 @@
+tcpdump -i interfaceno
+
+tcpdump -c 20 -i interface
+
+tcpdump -w 00001.pacp -i interfaceno
+
+tcpdump -r 00001.pacp 
+
+tcpdump -n -i interfacename # better o/p than 1 command
+
+tcpdump -n -i interfacename tcp # only tcp packets.
+
+tcpdump -n -i interfacename port 22
+
+tcpdump -i eth0 -s 0 host 10.165.107.73 # etho interface of our server and host ip is source
+
+tcpdump host sundown # print all packets arriving or departing from sundown
+
+tcpdump ip host ace and not helios # To print all IP packets between ace and any host except helios, 
+
+tcpdump net ucb-ether # To print all traffic between local hosts and hosts at Berkeley, 
+
+tcpdump -w /tmp/tcpdump -i en2 -s 1500 dst 192.168.1.1
+
+to read
+tcpdump -nnr /tmp/tcpdump
+
+tcpdump -w packet.pcap -s 4096 -c 3 host $IP &
+sleep 300; kill $!
+
+/usr/sbin/tcpdump -i $SET_INTERFACE -s0 -w “$SAVE_IN_FOLDER/$SAVE_AS_FILE”
+
+#Stop tcpdump command
+PID=$(/usr/bin/ps -ef | grep tcpdump | grep -v grep | grep -v “.sh” | awk ‘{print $2}’)
+/usr/bin/kill -9 $PID
+
+Crontab
+
+This is the crontab for an example tcpdump which starts at 02:00am and stops at 02:05am.
+
+0 2 * * * bash /tmp/tcpdump_getdata.sh
+5 2 * * * bash /tmp/tcpdump_stop.sh
+
+# tcpdump -i eth0 -G 3600 -w dump-%H.pcap.
+
+The same rotation applies here. tcpdump creates a new file every 3600 seconds, naming it with the current hour. Upon changing days, the previous hour files are sequentially replaced.
+
+
+at specific time:
+
+echo "/usr/sbin/tcpdump -ni eth0 -s0 -w /var/tmp/capture_eth0.pcap host 1.2.3.4 and port 80" | at 15:30 
+
+
+echo "killall tcpdump; killall tcpdump" | at 15:35
